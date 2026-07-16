@@ -88,6 +88,14 @@ if show_run_file and show_int_status_file and show_cdp_file:
                 elif "switchport access vlan" in line:
                     interfaces[current_interface]["VLANs"] = line.split()[-1]
 
+                elif "switchport trunk allowed vlan add" in line:
+                    added_vlans = line.split()[-1]
+                    existing = interfaces[current_interface].get("VLANs", "")
+                    if existing:
+                        interfaces[current_interface]["VLANs"] = f"{existing},{added_vlans}"
+                    else:
+                        interfaces[current_interface]["VLANs"] = added_vlans
+
                 elif "switchport trunk allowed vlan" in line:
                     interfaces[current_interface]["VLANs"] = line.split()[-1]
 
